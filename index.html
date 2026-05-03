@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ELP English Kit">
+<meta name="theme-color" content="#1A237E">
+<meta name="description" content="English Expression Kit by ELP Sumedang - Belajar variasi ekspresi Bahasa Inggris">
+<title>ELP English Expression Kit</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'DM Sans','Segoe UI',sans-serif;background:linear-gradient(135deg,#f0f4ff 0%,#e8f5e9 50%,#fff3e0 100%);min-height:100vh;min-height:100dvh;overscroll-behavior:none;padding-bottom:env(safe-area-inset-bottom)}
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#ccc;border-radius:4px}
+.header{background:linear-gradient(135deg,#1A237E 0%,#1565C0 60%,#00BFA5 100%);padding:max(env(safe-area-inset-top),28px) 20px 24px;color:#fff;text-align:center;position:relative;overflow:hidden}
+.header::before{content:'';position:absolute;top:-40px;right:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.08)}
+.header::after{content:'';position:absolute;bottom:-30px;left:-30px;width:120px;height:120px;border-radius:50%;background:rgba(255,214,0,.12)}
+.header-inner{position:relative;z-index:1}
+.brand{font-size:13px;font-weight:600;letter-spacing:3px;color:#FFD600;text-transform:uppercase;margin-bottom:6px}
+.header h1{font-size:26px;font-weight:800;font-family:'Playfair Display',serif;line-height:1.2;margin-bottom:4px}
+.header p{font-size:13px;opacity:.85}
+.tabs{display:flex;background:#fff;border-bottom:2px solid #e0e0e0;position:sticky;top:0;z-index:10}
+.tab{flex:1;padding:13px 0;font-size:13px;font-weight:700;border:none;cursor:pointer;background:#fff;color:#666;transition:all .3s;border-bottom:3px solid transparent;font-family:inherit}
+.tab.active{background:#1A237E;color:#fff;border-bottom-color:#FFD600}
+.content{padding:16px 14px;max-width:700px;margin:0 auto}
+.search-box{position:relative;margin-bottom:14px}
+.search-box input{width:100%;padding:11px 16px 11px 40px;border-radius:14px;border:2px solid #e0e0e0;font-size:14px;outline:none;background:#fff;font-family:inherit}
+.search-box input:focus{border-color:#1565C0}
+.search-icon{position:absolute;left:14px;top:12px;font-size:15px;opacity:.5}
+.cat-pills{display:flex;gap:7px;overflow-x:auto;padding-bottom:10px;margin-bottom:14px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.cat-pills::-webkit-scrollbar{display:none}
+.pill{padding:7px 14px;border-radius:24px;border:2px solid #ddd;background:#fff;color:#555;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s;font-family:inherit}
+.pill.active{border-color:#1A237E;background:#1A237E;color:#fff}
+.card{background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.06);border:1px solid #e8e8e8;margin-bottom:10px}
+.card-header{width:100%;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;background:#fff;border:none;cursor:pointer;font-family:inherit;text-align:left}
+.card-header.open{background:#1A237E}
+.card-title{font-size:15px;font-weight:700;color:#1A237E}
+.card-header.open .card-title{color:#fff}
+.arrow{font-size:18px;color:#999;transition:transform .3s}
+.card-header.open .arrow{color:#FFD600;transform:rotate(180deg)}
+.card-body{padding:14px 18px}
+.mood-label{font-size:13px;font-weight:700;color:#1565C0;margin-bottom:8px;padding:3px 10px;background:#E3F2FD;border-radius:8px;display:inline-block}
+.mood-group{margin-bottom:14px}
+.mood-group:last-child{margin-bottom:0}
+.responses{display:flex;flex-wrap:wrap;gap:7px}
+.resp{padding:7px 14px;border-radius:12px;background:#f5f7ff;border:1px solid #e0e6f0;font-size:13px;color:#333;line-height:1.4}
+.resp.has-note{padding:9px 14px;background:#fff;border:2px solid #e0e6f0;min-width:170px}
+.resp-arrow{color:#1565C0;font-weight:600}
+.resp-note{font-size:11px;color:#888;margin-top:3px;font-style:italic}
+.progress-bar{margin-bottom:18px}
+.progress-info{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:#555;margin-bottom:5px}
+.progress-info span:last-child{color:#1565C0}
+.progress-track{height:8px;background:#e0e0e0;border-radius:8px;overflow:hidden}
+.progress-fill{height:100%;background:linear-gradient(90deg,#1565C0,#00BFA5);border-radius:8px;transition:width .5s}
+.q-dots{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:18px;justify-content:center}
+.q-dot{width:30px;height:30px;border-radius:50%;border:2px solid #ddd;background:#fff;color:#999;font-size:11px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;font-family:inherit}
+.q-dot.current{border-color:#1A237E;background:#1A237E;color:#fff}
+.q-dot.answered{border-color:#00BFA5;background:#E0F7F4;color:#00BFA5}
+.q-card{background:#fff;border-radius:20px;padding:22px 18px;margin-bottom:18px;box-shadow:0 4px 20px rgba(0,0,0,.06);border:1px solid #e8e8e8}
+.q-num{font-size:12px;font-weight:600;color:#1565C0;margin-bottom:3px}
+.q-text{font-size:17px;font-weight:700;color:#1A237E;margin-bottom:14px}
+.q-input{width:100%;padding:13px 14px;border-radius:12px;border:2px solid #e0e0e0;font-size:14px;outline:none;background:#fafafa;font-family:inherit}
+.q-input:focus{border-color:#1565C0}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt-btn{padding:7px 13px;border-radius:20px;border:2px solid #ddd;background:#fff;color:#333;font-size:12px;cursor:pointer;font-weight:400;transition:all .2s;font-family:inherit}
+.opt-btn.selected{border-color:#1565C0;background:#1565C0;color:#fff;font-weight:700}
+.opt-other{padding:7px 13px;border-radius:20px;border:2px dashed #bbb;background:#fafafa;color:#888;font-size:12px;cursor:pointer;font-family:inherit}
+.opt-other.active{border-color:#E65100;background:#FFF3E0;color:#E65100;font-weight:700}
+.other-input{padding:10px 14px;border-radius:10px;border:2px solid #E65100;font-size:13px;outline:none;background:#FFF8F0;width:100%;margin-top:6px;font-family:inherit}
+.nav-btns{display:flex;gap:10px;margin-top:18px}
+.nav-btn{flex:1;padding:12px 0;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .2s}
+.nav-prev{border:2px solid #ddd;background:#fff;color:#555}
+.nav-prev:disabled{color:#ccc;cursor:default}
+.nav-next{border:none;background:#1565C0;color:#fff}
+.nav-gen{border:none;background:linear-gradient(135deg,#1A237E,#00BFA5);color:#fff;font-weight:700}
+.nav-gen:disabled{background:#ccc;cursor:default}
+.answers-list{background:#fff;border-radius:16px;padding:14px 18px;box-shadow:0 2px 10px rgba(0,0,0,.04);border:1px solid #e8e8e8}
+.answers-title{font-size:12px;font-weight:700;color:#888;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase}
+.ans-row{display:flex;justify-content:space-between;padding:5px 8px;border-radius:8px;cursor:pointer;transition:background .2s}
+.ans-row.current{background:#E3F2FD}
+.ans-q{font-size:11px;color:#555;flex:1}
+.ans-v{font-size:11px;font-weight:600;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ans-v.filled{color:#00BFA5}.ans-v.empty{color:#ccc}
+.result-box{background:linear-gradient(135deg,#1A237E 0%,#1565C0 100%);border-radius:20px;padding:26px 22px;color:#fff;box-shadow:0 8px 32px rgba(26,35,126,.25);position:relative;overflow:hidden}
+.result-box::before{content:'';position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;background:rgba(255,214,0,.15)}
+.result-box::after{content:'';position:absolute;bottom:-30px;left:-30px;width:140px;height:140px;border-radius:50%;background:rgba(0,191,165,.12)}
+.result-inner{position:relative;z-index:1}
+.result-label{font-size:12px;font-weight:600;color:#FFD600;letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.result-name{font-size:20px;font-weight:800;font-family:'Playfair Display',serif;margin-bottom:3px}
+.result-line{width:60px;height:3px;background:#FFD600;border-radius:2px;margin-bottom:18px}
+.result-text{font-size:14px;line-height:1.9;white-space:pre-line}
+.action-btns{display:flex;gap:10px;margin-top:14px}
+.btn-copy{flex:1;padding:13px 0;border-radius:14px;border:none;background:linear-gradient(135deg,#1A237E,#1565C0);color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;transition:all .3s}
+.btn-copy.copied{background:#00BFA5}
+.btn-edit{flex:1;padding:13px 0;border-radius:14px;border:2px solid #1565C0;background:#fff;color:#1565C0;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.btn-back{padding:8px 18px;border-radius:10px;border:2px solid #1565C0;background:#fff;color:#1565C0;font-size:12px;font-weight:600;cursor:pointer;margin-bottom:14px;font-family:inherit}
+.summary{margin-top:18px;background:#fff;border-radius:16px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.summary-title{font-size:13px;font-weight:700;color:#1A237E;margin-bottom:10px}
+.sum-row{display:flex;padding:7px 0;border-bottom:1px solid #f0f0f0;gap:8px}
+.sum-num{font-size:11px;color:#1565C0;font-weight:700;min-width:22px}
+.sum-q{font-size:11px;color:#888}
+.sum-a{font-size:12px;font-weight:600;color:#333}
+.footer{text-align:center;padding:22px 14px 30px;color:#999;font-size:11px}
+.install-banner{background:#FFF3E0;border:2px solid #FFB300;border-radius:14px;padding:14px 16px;margin-bottom:14px;display:flex;align-items:center;gap:12px}
+.install-banner-icon{font-size:28px;flex-shrink:0}
+.install-banner-text{flex:1;font-size:12px;color:#555;line-height:1.5}
+.install-banner-text strong{color:#E65100}
+.install-banner .btn-install{padding:8px 16px;border-radius:10px;border:none;background:#E65100;color:#fff;font-size:12px;font-weight:700;cursor:pointer;flex-shrink:0;font-family:inherit}
+.install-banner .btn-close{background:none;border:none;font-size:18px;cursor:pointer;color:#999;padding:4px;flex-shrink:0}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+// ─── DATA ───────────────────────────────────────────────────────────────────
+const variationsData = [
+  { category:"Greetings", icon:"👋", items:[
+    { question:"How are you?", groups:[
+      { mood:"😊 Happy / Great", responses:["I'm great!","I'm doing well!","I'm awesome!","I'm fantastic!","Never been better!","I'm on top of the world!"] },
+      { mood:"😐 Okay / Normal", responses:["I'm okay.","Not bad.","I'm alright.","So-so.","Can't complain.","I'm doing fine."] },
+      { mood:"😩 Tired / Bad", responses:["I'm tired.","I'm sleepy.","Not so good.","I'm a little sick.","I've been better.","I'm exhausted."] }
+    ]},
+    { question:"Ways to say Hello", groups:[
+      { mood:"🕐 Time-based Greetings", responses:[
+        {text:"Good morning.",note:"🌅 00:00 – 12:00 (pagi)"},
+        {text:"Good afternoon.",note:"☀️ 12:00 – 17:00 (siang–sore)"},
+        {text:"Good evening.",note:"🌆 17:00 – 21:00 (malam, saat bertemu)"},
+        {text:"Good night.",note:"🌙 21:00 – 00:00 (pamit/mau tidur)"}
+      ]},
+      { mood:"🤝 Formal", responses:["Hello.","How do you do?","It's a pleasure to meet you.","Hello, nice to see you."] },
+      { mood:"😎 Casual", responses:["Hey!","Hi there!","What's up?","Yo!","Hey, what's going on?","Howdy!"] }
+    ]},
+    { question:"Ways to say Goodbye", groups:[
+      { mood:"🕐 Time-based Goodbyes", responses:[
+        {text:"Good afternoon!",note:"☀️ Pamit saat siang (12:00–17:00)"},
+        {text:"Good evening!",note:"🌆 Pamit saat sore/malam (17:00–21:00)"},
+        {text:"Good night!",note:"🌙 Pamit saat malam/mau tidur (21:00+)"}
+      ]},
+      { mood:"🤝 Formal", responses:["Goodbye.","It was nice meeting you.","Have a good day.","Take care.","Until next time.","I look forward to seeing you again."] },
+      { mood:"😎 Casual", responses:["Bye!","See you!","Later!","Catch you later!","Peace out!","See ya around!"] }
+    ]}
+  ]},
+  { category:"Thanking", icon:"🙏", items:[
+    { question:"Ways to say Thank You", groups:[
+      { mood:"🤝 Formal", responses:["Thank you very much.","I really appreciate it.","That's very kind of you.","I'm grateful for your help.","Thank you for your time.","I can't thank you enough."] },
+      { mood:"😎 Casual", responses:["Thanks!","Thanks a lot!","Cheers!","You're the best!","I owe you one!","Thanks a bunch!"] }
+    ]},
+    { question:"Ways to say You're Welcome", groups:[
+      { mood:"🤝 Formal", responses:["You're welcome.","My pleasure.","Don't mention it.","It was nothing.","Happy to help.","Glad I could help."] },
+      { mood:"😎 Casual", responses:["No problem!","No worries!","Anytime!","Sure thing!","You got it!","Of course!"] }
+    ]}
+  ]},
+  { category:"Apologizing", icon:"😔", items:[
+    { question:"Ways to say Sorry", groups:[
+      { mood:"🤝 Formal", responses:["I sincerely apologize.","Please forgive me.","I'm terribly sorry.","I owe you an apology.","Please accept my apology.","I regret what happened."] },
+      { mood:"😎 Casual", responses:["Sorry!","My bad!","Oops, sorry about that!","I didn't mean to!","Sorry, my mistake!","I messed up, sorry!"] }
+    ]},
+    { question:"Responding to an apology", groups:[
+      { mood:"✅ Accepting", responses:["That's okay.","No worries.","It's fine, don't worry.","Apology accepted.","It happens.","No harm done."] }
+    ]}
+  ]},
+  { category:"Agreeing", icon:"🤝", items:[
+    { question:"Ways to Agree", groups:[
+      { mood:"💪 Strong", responses:["Absolutely!","Exactly!","I totally agree!","100%!","You're absolutely right!","I couldn't agree more!"] },
+      { mood:"👍 Mild", responses:["I think so too.","That's a good point.","I agree.","You have a point.","That makes sense.","Fair enough."] }
+    ]},
+    { question:"Ways to Disagree", groups:[
+      { mood:"🤚 Polite", responses:["I see your point, but...","I'm not sure about that.","I respectfully disagree.","I have a different opinion.","That's one way to look at it.","I understand, but I think..."] },
+      { mood:"❌ Direct", responses:["I don't think so.","I disagree.","No way!","That's not right.","I don't agree with that.","Not really."] }
+    ]}
+  ]},
+  { category:"Opinion", icon:"💭", items:[
+    { question:"Asking for opinion", groups:[
+      { mood:"❓ Various", responses:["What do you think?","How do you feel about...?","What's your opinion on...?","Do you agree?","What are your thoughts?","How about you?"] }
+    ]},
+    { question:"Giving your opinion", groups:[
+      { mood:"🗣️ Various", responses:["I think...","In my opinion...","I believe...","I feel that...","If you ask me...","The way I see it..."] }
+    ]}
+  ]},
+  { category:"Compliments", icon:"⭐", items:[
+    { question:"Giving compliments", groups:[
+      { mood:"👗 Appearance", responses:["You look great!","I love your outfit!","That color looks amazing on you!","Nice shirt!","Your hair looks awesome!","You look stunning!"] },
+      { mood:"🧠 Skills", responses:["Great job!","You're so talented!","Well done!","That was amazing!","You're really good at this!","Impressive work!"] }
+    ]},
+    { question:"Responding to compliments", groups:[
+      { mood:"😊 Responses", responses:["Thank you!","That's so nice of you!","You made my day!","That means a lot!","You're too kind!","Thanks, I appreciate it!"] }
+    ]}
+  ]},
+  { category:"Requesting", icon:"🙋", items:[
+    { question:"Polite requests", groups:[
+      { mood:"🤝 Formal", responses:["Could you please...?","Would you mind...?","May I...?","Would it be possible to...?","I was wondering if you could...","Do you think you could...?"] },
+      { mood:"😎 Casual", responses:["Can you...?","Do me a favor?","Help me out?","Pass me the...?","Got a minute?","Mind if I...?"] }
+    ]},
+    { question:"Offering help", groups:[
+      { mood:"🤲 Various", responses:["Can I help you?","Do you need any help?","Let me help you with that.","Would you like some help?","I'd be happy to help!","Is there anything I can do?"] }
+    ]}
+  ]},
+  { category:"Feelings", icon:"❤️", items:[
+    { question:"Expressing happiness", groups:[{ mood:"😄 Happy", responses:["I'm so happy!","This is amazing!","I'm thrilled!","I'm over the moon!","I'm delighted!","This made my day!"] }] },
+    { question:"Expressing surprise", groups:[{ mood:"😲 Surprised", responses:["Really?!","No way!","Are you serious?!","I can't believe it!","That's unbelievable!","Wow, I didn't expect that!"] }] },
+    { question:"Expressing sadness", groups:[{ mood:"😢 Sad", responses:["I'm sad.","That's disappointing.","I feel down today.","That's too bad.","I'm heartbroken.","It makes me sad."] }] }
+  ]},
+  { category:"Encourage", icon:"💪", items:[
+    { question:"Encouraging someone", groups:[{ mood:"🔥 Motivating", responses:["You can do it!","Don't give up!","Keep going!","I believe in you!","You've got this!","Stay strong!","Never stop trying!","You're doing great!"] }] }
+  ]}
+];
+
+const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const days31=Array.from({length:31},(_,i)=>String(i+1));
+const subjects=["English","Mathematics","Bahasa Indonesia","Science","Social Studies","Art & Culture","Physical Education","Religion","IT","Civic Education"];
+const sports=["Football","Badminton","Basketball","Swimming","Volleyball","Running","Cycling","Table Tennis","Martial Arts","Gymnastics"];
+const hobbies=["Reading","Drawing","Playing games","Watching movies","Cooking","Singing","Dancing","Playing music","Photography","Writing","Gardening","Traveling"];
+const foods=["Nasi Goreng","Mie Ayam","Bakso","Sate","Rendang","Gado-gado","Soto","Pizza","Fried Chicken","Sushi","Burger","Indomie"];
+const drinks=["Water","Tea","Milk","Orange Juice","Hot Chocolate","Iced Tea","Milkshake","Coffee","Lemonade","Mango Juice"];
+const daysOfWeek=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const jobs=["Teacher","Doctor","Farmer","Driver","Police Officer","Businessman","Engineer","Chef","Nurse","Soldier","Lawyer","Accountant","Mechanic","Tailor","Fisherman"];
+const dreams=["Doctor","Teacher","Engineer","Footballer","YouTuber","Pilot","Police Officer","Chef","Programmer","Scientist","Artist","Musician","Architect","Astronaut","Entrepreneur"];
+const places=["Bali","Raja Ampat","Borobudur","Mount Bromo","Komodo Island","Lake Toba","Bandung","Yogyakarta","Lombok","Wakatobi","Tana Toraja","Labuan Bajo"];
+
+const introQuestions=[
+  {id:"name",q:"What's your name?",type:"text",ph:"Type your name..."},
+  {id:"age",q:"How old are you?",type:"text",ph:"e.g. 14"},
+  {id:"bday_month",q:"When is your birthday? (Month)",type:"select",opts:months},
+  {id:"bday_day",q:"When is your birthday? (Date)",type:"select",opts:days31},
+  {id:"from",q:"Where are you from?",type:"text",ph:"e.g. Sumedang"},
+  {id:"live",q:"Where do you live?",type:"text",ph:"e.g. Bandung"},
+  {id:"family_count",q:"How many people are there in your family?",type:"text",ph:"e.g. 5"},
+  {id:"family_who",q:"Who are they?",type:"text",ph:"e.g. father, mother, sister, brother, and me"},
+  {id:"father_job",q:"What does your father do?",type:"select",opts:jobs},
+  {id:"mother_job",q:"What does your mother do?",type:"select",opts:[...jobs,"Housewife"]},
+  {id:"school",q:"Where do you study?",type:"text",ph:"e.g. SMPN 1 Sumedang"},
+  {id:"subject",q:"What is your favorite subject?",type:"select",opts:subjects},
+  {id:"sport",q:"What is your favorite sport?",type:"select",opts:sports},
+  {id:"dream",q:"What do you want to become in the future?",type:"select",opts:dreams},
+  {id:"hobby",q:"What is your hobby?",type:"select",opts:hobbies},
+  {id:"food",q:"What is your favorite food?",type:"select",opts:foods},
+  {id:"drink",q:"What is your favorite drink?",type:"select",opts:drinks},
+  {id:"day",q:"What is your favorite day?",type:"select",opts:daysOfWeek},
+  {id:"movie",q:"What movie do you like?",type:"text",ph:"e.g. Spider-Man"},
+  {id:"month",q:"What is your favorite month?",type:"select",opts:months},
+  {id:"place",q:"What is the most beautiful place in your country?",type:"select",opts:places}
+];
+
+// ─── APP STATE ───────────────────────────────────────────────────────────────
+let state={tab:"variations",catIdx:0,searchQ:"",answers:{},showResult:false,copied:false,currentQ:0,openCards:{},otherActive:{},otherVals:{},showInstall:true};
+let deferredPrompt=null;
+
+function setState(updates){Object.assign(state,updates);render()}
+function setAnswer(id,val){state.answers[id]=val;render()}
+
+// ─── RENDER ──────────────────────────────────────────────────────────────────
+function render(){
+  const app=document.getElementById('app');
+  app.innerHTML=renderHeader()+renderTabs()+renderContent()+renderFooter();
+  attachEvents();
+}
+
+function renderHeader(){
+  return `<div class="header"><div class="header-inner">
+    <div class="brand">ELP Sumedang</div>
+    <h1>English Expression Kit</h1>
+    <p>Belajar variasi ekspresi & bangun perkenalan diri! 🚀</p>
+  </div></div>`;
+}
+
+function renderTabs(){
+  const tabs=[{key:"variations",label:"📚 Variasi Ekspresi"},{key:"intro",label:"🎤 Perkenalan Diri"}];
+  return `<div class="tabs">${tabs.map(t=>`<button class="tab${state.tab===t.key?' active':''}" data-tab="${t.key}">${t.label}</button>`).join('')}</div>`;
+}
+
+function renderContent(){
+  if(state.tab==="variations") return renderVariations();
+  if(state.showResult) return renderResult();
+  return renderIntroBuilder();
+}
+
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
+
+// ─── VARIATIONS ──────────────────────────────────────────────────────────────
+function renderVariations(){
+  const cat=variationsData[state.catIdx];
+  const sq=state.searchQ.toLowerCase();
+  const items=cat.items.filter(item=>!sq||item.question.toLowerCase().includes(sq)||item.groups.some(g=>g.responses.some(r=>{const t=typeof r==='object'?r.text:r;return t.toLowerCase().includes(sq)})));
+
+  let html=`<div class="content">`;
+  html+=`<div class="search-box"><span class="search-icon">🔍</span><input id="searchInput" placeholder="Search expressions..." value="${esc(state.searchQ)}"></div>`;
+  html+=`<div class="cat-pills">${variationsData.map((c,i)=>`<button class="pill${state.catIdx===i?' active':''}" data-cat="${i}">${c.icon} ${c.category}</button>`).join('')}</div>`;
+
+  if(!items.length){
+    html+=`<div style="text-align:center;padding:40px;color:#999"><div style="font-size:40px;margin-bottom:8px">🔍</div><div>No expressions found.</div></div>`;
+  } else {
+    items.forEach((item,ii)=>{
+      const key=state.catIdx+'_'+ii;
+      const isOpen=state.openCards[key];
+      html+=`<div class="card"><button class="card-header${isOpen?' open':''}" data-card="${key}"><span class="card-title">${esc(item.question)}</span><span class="arrow">▼</span></button>`;
+      if(isOpen){
+        html+=`<div class="card-body">`;
+        item.groups.forEach(g=>{
+          html+=`<div class="mood-group"><div class="mood-label">${esc(g.mood)}</div><div class="responses">`;
+          g.responses.forEach(r=>{
+            if(typeof r==='object'){
+              html+=`<div class="resp has-note"><div><span class="resp-arrow">→</span> <strong>${esc(r.text)}</strong></div><div class="resp-note">${esc(r.note)}</div></div>`;
+            } else {
+              html+=`<div class="resp"><span class="resp-arrow">→</span> ${esc(r)}</div>`;
+            }
+          });
+          html+=`</div></div>`;
+        });
+        html+=`</div>`;
+      }
+      html+=`</div>`;
+    });
+  }
+  html+=`</div>`;
+  return html;
+}
+
+// ─── INTRO BUILDER ───────────────────────────────────────────────────────────
+function renderIntroBuilder(){
+  const answered=introQuestions.filter(q=>(state.answers[q.id]||'').trim()).length;
+  const pct=(answered/introQuestions.length*100).toFixed(0);
+  const q=introQuestions[state.currentQ];
+  const isOther=state.otherActive[q.id];
+
+  let html=`<div class="content">`;
+
+  // Install banner
+  if(state.showInstall && !window.matchMedia('(display-mode:standalone)').matches){
+    html+=`<div class="install-banner" id="installBanner">
+      <div class="install-banner-icon">📲</div>
+      <div class="install-banner-text"><strong>Jadikan Aplikasi!</strong><br>Tap tombol Install atau "Add to Home Screen" di browser untuk akses cepat tanpa buka browser.</div>
+      <button class="btn-close" id="closeBanner">×</button>
+    </div>`;
+  }
+
+  // Progress
+  html+=`<div class="progress-bar"><div class="progress-info"><span>Progress</span><span>${answered}/${introQuestions.length} answered</span></div><div class="progress-track"><div class="progress-fill" style="width:${pct}%"></div></div></div>`;
+
+  // Dots
+  html+=`<div class="q-dots">${introQuestions.map((qi,i)=>{
+    const a=(state.answers[qi.id]||'').trim();
+    const cls=state.currentQ===i?'current':a?'answered':'';
+    return `<button class="q-dot ${cls}" data-qi="${i}">${i+1}</button>`;
+  }).join('')}</div>`;
+
+  // Question card
+  html+=`<div class="q-card"><div class="q-num">Question ${state.currentQ+1} of ${introQuestions.length}</div><div class="q-text">${esc(q.q)}</div>`;
+  if(q.type==='text'){
+    html+=`<input class="q-input" id="qInput" placeholder="${esc(q.ph)}" value="${esc(state.answers[q.id]||'')}">`;
+  } else {
+    html+=`<div class="opts">`;
+    q.opts.forEach(opt=>{
+      const sel=!isOther&&state.answers[q.id]===opt;
+      html+=`<button class="opt-btn${sel?' selected':''}" data-opt="${esc(opt)}">${esc(opt)}</button>`;
+    });
+    html+=`<button class="opt-other${isOther?' active':''}" id="otherBtn">✏️ Other</button></div>`;
+    if(isOther){
+      html+=`<input class="other-input" id="otherInput" placeholder="Type your answer..." value="${esc(state.otherVals[q.id]||'')}">`;
+    }
+  }
+
+  // Nav
+  html+=`<div class="nav-btns">`;
+  html+=`<button class="nav-btn nav-prev" data-nav="prev"${state.currentQ===0?' disabled':''}>← Previous</button>`;
+  if(state.currentQ<introQuestions.length-1){
+    html+=`<button class="nav-btn nav-next" data-nav="next">Next →</button>`;
+  } else {
+    html+=`<button class="nav-btn nav-gen" data-nav="gen"${answered<5?' disabled':''}>✨ Generate!</button>`;
+  }
+  html+=`</div></div>`;
+
+  // Answers overview
+  html+=`<div class="answers-list"><div class="answers-title">Your Answers</div>`;
+  introQuestions.forEach((qi,i)=>{
+    const a=(state.answers[qi.id]||'').trim();
+    const short=qi.q.replace('What is your ','').replace("What's your ",'').replace('?','');
+    html+=`<div class="ans-row${state.currentQ===i?' current':''}" data-qi="${i}"><span class="ans-q">${i+1}. ${esc(short)}</span><span class="ans-v ${a?'filled':'empty'}">${a?esc(a):'—'}</span></div>`;
+  });
+  html+=`</div></div>`;
+  return html;
+}
+
+// ─── RESULT ──────────────────────────────────────────────────────────────────
+function generateText(){
+  const a=state.answers;
+  if(!a.name) return '';
+  let t='Hello everyone! Let me introduce myself.\n\n';
+  t+=`My name is ${a.name||'___'}.`;
+  if(a.age) t+=` I am ${a.age} years old.`;
+  if(a.bday_month&&a.bday_day) t+=` My birthday is on ${a.bday_month} ${a.bday_day}.`;
+  else if(a.bday_month) t+=` My birthday is in ${a.bday_month}.`;
+  if(a.from) t+=` I am from ${a.from}.`;
+  if(a.live) t+=` I live in ${a.live}.`;
+  t+='\n\n';
+  if(a.family_count) t+=`There are ${a.family_count} people in my family.`;
+  if(a.family_who) t+=` They are ${a.family_who}.`;
+  if(a.father_job) t+=` My father is a ${a.father_job.toLowerCase()}.`;
+  if(a.mother_job) t+=` My mother is a ${a.mother_job.toLowerCase()}.`;
+  t+='\n\n';
+  if(a.school) t+=`I study at ${a.school}.`;
+  if(a.subject) t+=` My favorite subject is ${a.subject}.`;
+  if(a.sport) t+=` My favorite sport is ${a.sport.toLowerCase()}.`;
+  if(a.hobby) t+=` My hobby is ${a.hobby.toLowerCase()}.`;
+  t+='\n\n';
+  if(a.food) t+=`My favorite food is ${a.food.toLowerCase()}.`;
+  if(a.drink) t+=` My favorite drink is ${a.drink.toLowerCase()}.`;
+  if(a.movie) t+=` I like watching ${a.movie}.`;
+  if(a.day) t+=` My favorite day is ${a.day}.`;
+  if(a.month) t+=` My favorite month is ${a.month}.`;
+  t+='\n\n';
+  if(a.dream) t+=`In the future, I want to become a ${a.dream.toLowerCase()}.`;
+  if(a.place) t+=` I think the most beautiful place in my country is ${a.place}.`;
+  t+='\n\nNice to meet you all! 😊';
+  return t;
+}
+
+function renderResult(){
+  const text=generateText();
+  let html=`<div class="content">`;
+  html+=`<button class="btn-back" id="backBtn">← Back to Questions</button>`;
+  html+=`<div class="result-box"><div class="result-inner">
+    <div class="result-label">My Self Introduction</div>
+    <div class="result-name">${esc(state.answers.name||'Your Name')}</div>
+    <div class="result-line"></div>
+    <div class="result-text">${esc(text)}</div>
+  </div></div>`;
+  html+=`<div class="action-btns">
+    <button class="btn-copy${state.copied?' copied':''}" id="copyBtn">${state.copied?'✅ Copied!':'📋 Copy Text'}</button>
+    <button class="btn-edit" id="editBtn">✏️ Edit</button>
+  </div>`;
+
+  // Summary
+  html+=`<div class="summary"><div class="summary-title">📋 Questions & Answers Summary</div>`;
+  introQuestions.forEach((qi,i)=>{
+    const a=(state.answers[qi.id]||'').trim();
+    if(a) html+=`<div class="sum-row"><span class="sum-num">${i+1}.</span><div><div class="sum-q">${esc(qi.q)}</div><div class="sum-a">${esc(a)}</div></div></div>`;
+  });
+  html+=`</div></div>`;
+  return html;
+}
+
+function renderFooter(){
+  return `<div class="footer">ELP Sumedang • English Learning Program<br><span>www.elp.web.id | @elpsumedang</span></div>`;
+}
+
+// ─── EVENTS ──────────────────────────────────────────────────────────────────
+function attachEvents(){
+  // Tabs
+  document.querySelectorAll('.tab').forEach(el=>el.onclick=()=>setState({tab:el.dataset.tab,showResult:false}));
+
+  // Search
+  const si=document.getElementById('searchInput');
+  if(si) si.oninput=()=>setState({searchQ:si.value});
+
+  // Category pills
+  document.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>setState({catIdx:+el.dataset.cat}));
+
+  // Cards
+  document.querySelectorAll('[data-card]').forEach(el=>el.onclick=()=>{
+    state.openCards[el.dataset.card]=!state.openCards[el.dataset.card];render();
+  });
+
+  // Question dots & answer rows
+  document.querySelectorAll('[data-qi]').forEach(el=>el.onclick=()=>setState({currentQ:+el.dataset.qi}));
+
+  // Text input
+  const qi=document.getElementById('qInput');
+  if(qi) qi.oninput=()=>{state.answers[introQuestions[state.currentQ].id]=qi.value;render();qi.focus();
+    const v=qi.value;qi.value='';qi.value=v;};
+
+  // Select options
+  document.querySelectorAll('[data-opt]').forEach(el=>el.onclick=()=>{
+    const q=introQuestions[state.currentQ];
+    state.otherActive[q.id]=false;
+    setAnswer(q.id,el.dataset.opt);
+  });
+
+  // Other button
+  const ob=document.getElementById('otherBtn');
+  if(ob) ob.onclick=()=>{
+    const q=introQuestions[state.currentQ];
+    state.otherActive[q.id]=true;
+    state.answers[q.id]=state.otherVals[q.id]||'';
+    render();
+    const oi=document.getElementById('otherInput');
+    if(oi) oi.focus();
+  };
+
+  // Other input
+  const oi=document.getElementById('otherInput');
+  if(oi) oi.oninput=()=>{
+    const q=introQuestions[state.currentQ];
+    state.otherVals[q.id]=oi.value;
+    state.answers[q.id]=oi.value;
+    render();
+    const el=document.getElementById('otherInput');
+    if(el){el.focus();const v=el.value;el.value='';el.value=v;}
+  };
+
+  // Nav buttons
+  document.querySelectorAll('[data-nav]').forEach(el=>el.onclick=()=>{
+    if(el.dataset.nav==='prev'&&state.currentQ>0) setState({currentQ:state.currentQ-1});
+    if(el.dataset.nav==='next') setState({currentQ:state.currentQ+1});
+    if(el.dataset.nav==='gen') setState({showResult:true});
+  });
+
+  // Result buttons
+  const bb=document.getElementById('backBtn');
+  if(bb) bb.onclick=()=>setState({showResult:false});
+  const eb=document.getElementById('editBtn');
+  if(eb) eb.onclick=()=>setState({showResult:false});
+  const cb=document.getElementById('copyBtn');
+  if(cb) cb.onclick=()=>{
+    navigator.clipboard.writeText(generateText()).then(()=>{
+      state.copied=true;render();
+      setTimeout(()=>{state.copied=false;render()},2000);
+    }).catch(()=>{
+      // Fallback
+      const ta=document.createElement('textarea');
+      ta.value=generateText();document.body.appendChild(ta);ta.select();
+      document.execCommand('copy');document.body.removeChild(ta);
+      state.copied=true;render();
+      setTimeout(()=>{state.copied=false;render()},2000);
+    });
+  };
+
+  // Install banner close
+  const closeBanner=document.getElementById('closeBanner');
+  if(closeBanner) closeBanner.onclick=()=>setState({showInstall:false});
+}
+
+// ─── PWA INSTALL ─────────────────────────────────────────────────────────────
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
+// ─── INIT ────────────────────────────────────────────────────────────────────
+render();
+
+// Register service worker
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
