@@ -449,14 +449,48 @@ function renderFooter(){
   return `<div class="footer">ELP Sumedang • English Learning Program<br><span>www.elp.web.id | @elpsumedang</span></div>`;
 }
 
+// ─── LIGHTWEIGHT UPDATE (no full re-render, keeps keyboard open) ─────────
+function updateProgressAndAnswers(){
+  const answered=introQuestions.filter(q=>(state.answers[q.id]||'').trim()).length;
+  const pct=(answered/introQuestions.length*100).toFixed(0);
+
+  // Update progress text & bar
+  const pInfo=document.querySelector('.progress-info span:last-child');
+  if(pInfo) pInfo.textContent=`${answered}/${introQuestions.length} answered`;
+  const pFill=document.querySelector('.progress-fill');
+  if(pFill) pFill.style.width=pct+'%';
+
+  // Update dots
+  document.querySelectorAll('.q-dot').forEach((dot,i)=>{
+    const q=introQuestions[i];
+    const a=(state.answers[q.id]||'').trim();
+    dot.className='q-dot'+(state.currentQ===i?' current':a?' answered':'');
+  });
+
+  // Update answer list values
+  document.querySelectorAll('.ans-v').forEach((el,i)=>{
+    const q=introQuestions[i];
+    const a=(state.answers[q.id]||'').trim();
+    el.textContent=a||'—';
+    el.className='ans-v '+(a?'filled':'empty');
+  });
+}
+
 // ─── EVENTS ──────────────────────────────────────────────────────────────────
 function attachEvents(){
   // Tabs
   document.querySelectorAll('.tab').forEach(el=>el.onclick=()=>setState({tab:el.dataset.tab,showResult:false}));
 
-  // Search
+  // Search — debounce to avoid lag
   const si=document.getElementById('searchInput');
-  if(si) si.oninput=()=>setState({searchQ:si.value});
+  if(si){
+    let searchTimer;
+    si.oninput=()=>{
+      clearTimeout(searchTimer);
+      state.searchQ=si.value;
+      searchTimer=setTimeout(()=>render(),300);
+    };
+  }
 
   // Category pills
   document.querySelectorAll('[data-cat]').forEach(el=>el.onclick=()=>setState({catIdx:+el.dataset.cat}));
@@ -469,10 +503,12 @@ function attachEvents(){
   // Question dots & answer rows
   document.querySelectorAll('[data-qi]').forEach(el=>el.onclick=()=>setState({currentQ:+el.dataset.qi}));
 
-  // Text input
+  // Text input — don't re-render, just update state + UI parts
   const qi=document.getElementById('qInput');
-  if(qi) qi.oninput=()=>{state.answers[introQuestions[state.currentQ].id]=qi.value;render();qi.focus();
-    const v=qi.value;qi.value='';qi.value=v;};
+  if(qi) qi.oninput=()=>{
+    state.answers[introQuestions[state.currentQ].id]=qi.value;
+    updateProgressAndAnswers();
+  };
 
   // Select options
   document.querySelectorAll('[data-opt]').forEach(el=>el.onclick=()=>{
@@ -492,15 +528,13 @@ function attachEvents(){
     if(oi) oi.focus();
   };
 
-  // Other input
+  // Other input — don't re-render, just update state + UI parts
   const oi=document.getElementById('otherInput');
   if(oi) oi.oninput=()=>{
     const q=introQuestions[state.currentQ];
     state.otherVals[q.id]=oi.value;
     state.answers[q.id]=oi.value;
-    render();
-    const el=document.getElementById('otherInput');
-    if(el){el.focus();const v=el.value;el.value='';el.value=v;}
+    updateProgressAndAnswers();
   };
 
   // Nav buttons
